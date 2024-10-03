@@ -87,12 +87,4 @@ function convertToMobiledoc(content, source) {
   return mobiledoc;
 }
 
-
-
-
-
-
-
-
-
 module.exports = { createApp, convertToMobiledoc };
