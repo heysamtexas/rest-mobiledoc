@@ -128,6 +128,21 @@ Example request body:
 
 The API will respond with the converted Mobiledoc content.
 
+## API Usage Example
+
+Here's an example of how to use the API with curl:
+
+```bash
+curl -X POST https://api.joat.tools \
+     -H "Content-Type: application/json" \
+     -d '{
+       "source": "markdown",
+       "payload": "# Welcome to REST-mobiledoc\n\nThis is a sample Markdown document.\n\n## Features\n\n- Converts Markdown to Mobiledoc\n- Easy to use API\n- Lightweight and fast"
+     }'
+```
+
+This command sends a POST request to the API with a Markdown payload. The API should respond with the converted Mobiledoc content.
+
 
 ## Contributing
 

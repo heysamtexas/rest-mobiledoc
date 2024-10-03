@@ -7,7 +7,11 @@ help:
 
 .PHONY: docker
 docker: ## Build the docker container
-	docker build -t mobiledoc .
+	docker build -t rest-mobiledoc .
+
+.PHONY: docker-run
+docker-run: ## Run the docker container
+	docker run --rm -e URI_PATH=/mobiledoc/ -it -p 3000:3000 rest-mobiledoc
 
 .PHONY: test
 test: ## Run the tests
