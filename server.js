@@ -1,7 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const { JSDOM } = require('jsdom');
-const TurndownService = require('turndown');
 const swaggerJsdoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
 const marked = require('marked');
