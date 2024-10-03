@@ -1,0 +1,26 @@
+{
+  "name": "rest-mobiledoc",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@tryghost/mobiledoc-kit": "^0.12.5-ghost.2",
+    "body-parser": "^1.20.3",
+    "express": "^4.21.0",
+    "jsdom": "^25.0.1",
+    "marked": "^14.1.2",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1",
+    "turndown": "^7.2.0"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "supertest": "^7.0.0"
+  }
+}
