@@ -12,7 +12,19 @@ We created REST-mobiledoc to bridge the gap between common content formats (HTML
 2. Provide a conversion layer in their content pipeline
 3. Easily transform user-generated content into a Mobiledoc-compatible format
 
-By offering this as a REST API, we've made it easy to integrate into various workflows and applications, regardless of the programming language or platform they use.
+By offering this as a REST API, we've made it easy to integrate into various 
+workflows and applications, regardless of the programming language or platform 
+they use.
+
+## Running the docker image
+Sorry, there is no free docker image hosting. I don't use DockerHub. You can 
+build the image yourself and run it locally. To run the docker image, you can 
+use the following command:
+
+```bash
+docker build -t rest-mobiledoc .
+docker run -p 3000:3000 -d --name rest-mobiledoc ghcr.io/yourusername/rest-mobiledoc:latest
+```
 
 ## Features
 
@@ -85,6 +97,37 @@ Response:
 ```
 
 For detailed API documentation, refer to the Swagger UI available at `/api-docs` when running the server.
+
+## API Documentation
+
+Once the server is running, you can access the API documentation by visiting:
+
+```
+http://localhost:3000/api-docs
+```
+
+This will open the Swagger UI, where you can see detailed information about the API endpoints, try out the API directly from the browser, and see example requests and responses.
+
+The API has one main endpoint:
+
+- `POST /`: Convert HTML or Markdown to Mobiledoc
+
+To use the API, send a POST request to the root URL (`/`) with a JSON body containing:
+
+- `source`: Either "html" or "markdown"
+- `payload`: The content to be converted
+
+Example request body:
+
+```json
+{
+  "source": "markdown",
+  "payload": "# Hello, world!\n\nThis is a test."
+}
+```
+
+The API will respond with the converted Mobiledoc content.
+
 
 ## Contributing
 

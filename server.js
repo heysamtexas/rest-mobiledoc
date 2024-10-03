@@ -10,22 +10,57 @@ function createApp() {
   const app = express();
   app.use(bodyParser.json());
 
-  // OpenAPI definition
+  // Swagger definition
   const swaggerOptions = {
     definition: {
       openapi: '3.0.0',
       info: {
-        title: 'Mobiledoc Converter API',
+        title: 'REST-mobiledoc API',
         version: '1.0.0',
-        description: 'API for converting HTML and Markdown to Mobiledoc format',
+        description: 'A simple Express API to convert HTML and Markdown to Mobiledoc',
       },
     },
-    apis: ['./server.js'], // Path to the API docs
+    apis: ['./server.js'], // files containing annotations as above
   };
 
   const swaggerSpec = swaggerJsdoc(swaggerOptions);
   app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
+  /**
+   * @swagger
+   * /:
+   *   post:
+   *     summary: Convert HTML or Markdown to Mobiledoc
+   *     requestBody:
+   *       required: true
+   *       content:
+   *         application/json:
+   *           schema:
+   *             type: object
+   *             required:
+   *               - source
+   *               - payload
+   *             properties:
+   *               source:
+   *                 type: string
+   *                 enum: [html, markdown]
+   *               payload:
+   *                 type: string
+   *     responses:
+   *       200:
+   *         description: Successful conversion
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: object
+   *               properties:
+   *                 result:
+   *                   type: object
+   *       400:
+   *         description: Bad request
+   *       500:
+   *         description: Internal server error
+   */
   app.post('/', (req, res) => {
     try {
       const { source, payload } = req.body;
@@ -85,6 +120,48 @@ function convertToMobiledoc(content, source) {
 
   console.log('Mobiledoc result:', mobiledoc);
   return mobiledoc;
+}
+
+// Only start the server if this file is run directly
+if (require.main === module) {
+  const app = createApp();
+  const port = process.env.PORT || 3000;
+
+  const server = app.listen(port, () => {
+    console.log(`Server running at http://localhost:${port}`);
+    console.log(`API documentation available at http://localhost:${port}/api-docs`);
+  });
+
+  // Handle server errors
+  server.on('error', (error) => {
+    if (error.syscall !== 'listen') {
+      throw error;
+    }
+
+    switch (error.code) {
+      case 'EACCES':
+        console.error(`Port ${port} requires elevated privileges`);
+        process.exit(1);
+        break;
+      case 'EADDRINUSE':
+        console.error(`Port ${port} is already in use`);
+        process.exit(1);
+        break;
+      default:
+        throw error;
+    }
+  });
+
+  // Handle unhandled promise rejections
+  process.on('unhandledRejection', (reason, promise) => {
+    console.error('Unhandled Rejection at:', promise, 'reason:', reason);
+  });
+
+  // Handle uncaught exceptions
+  process.on('uncaughtException', (error) => {
+    console.error('Uncaught Exception:', error);
+    process.exit(1);
+  });
 }
 
 module.exports = { createApp, convertToMobiledoc };
